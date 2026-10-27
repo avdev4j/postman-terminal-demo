@@ -7,8 +7,12 @@ servers:
 paths:
   /tasks:
     get:
+      operationId: listTasks
       summary: List tasks
+      description: Returns every task.
       responses:
+        "400":
+          description: The query is invalid.
         "200":
           description: OK
           content:
@@ -18,7 +22,9 @@ paths:
                 items:
                   $ref: "#/components/schemas/Task"
     post:
+      operationId: createTask
       summary: Create a task
+      description: Creates a task from a title and returns it.
       requestBody:
         required: true
         content:
@@ -32,9 +38,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Task"
+        "400":
+          description: The request body is invalid, for example the title is missing.
   /tasks/{taskId}:
     get:
+      operationId: getTask
       summary: Get a task
+      description: Returns one task by its ID.
       parameters:
         - name: taskId
           in: path
@@ -48,6 +58,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Task"
+        "404":
+          description: No task has this ID.
 components:
   schemas:
     NewTask:
