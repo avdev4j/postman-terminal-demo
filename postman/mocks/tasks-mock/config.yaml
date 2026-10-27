@@ -1,0 +1,10 @@
+version: 1
+id: ba23941d-befa-46fc-8da4-7a1dace90db5
+name: Tasks Mock
+slug: tasks-mock
+protocol: http
+port: 4010
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
