@@ -1,0 +1,9 @@
+$kind: http-request
+id: de38e8f1c2cda1d085ab25e0
+name: List tasks
+method: GET
+url: '{{baseUrl}}/tasks'
+scripts:
+  - type: afterResponse
+    code: pm.test("returns 200", () => pm.response.to.have.status(200));
+    language: text/javascript
