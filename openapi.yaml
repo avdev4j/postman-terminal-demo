@@ -7,7 +7,9 @@ servers:
 paths:
   /tasks:
     get:
+      operationId: listTasks
       summary: List tasks
+      description: Returns all tasks as an array. The array is empty when no tasks exist.
       responses:
         "200":
           description: OK
@@ -17,8 +19,16 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Task"
+        "400":
+          description: The request was malformed and could not be processed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     post:
+      operationId: createTask
       summary: Create a task
+      description: Creates a task from the supplied title and returns the created task, including its generated id.
       requestBody:
         required: true
         content:
@@ -32,13 +42,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Task"
+        "400":
+          description: The request body is invalid, for example `title` is missing or not a string.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /tasks/{taskId}:
     get:
+      operationId: getTask
       summary: Get a task
+      description: Returns a single task by its id.
       parameters:
         - name: taskId
           in: path
           required: true
+          description: Identifier of the task to retrieve.
           schema:
             type: string
       responses:
@@ -48,8 +67,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Task"
+        "404":
+          description: No task exists with the given `taskId`.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable explanation of what went wrong.
     NewTask:
       type: object
       required: [title]
