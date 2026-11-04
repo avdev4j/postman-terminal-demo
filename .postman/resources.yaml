@@ -1,0 +1,6 @@
+localResources:
+  specs:
+    - ../openapi.yaml
+workspace:
+  id: 86d43578-d8ab-4ef4-ae91-eb73752b52cd
+  name: avdev4j/postman-terminal-demo
