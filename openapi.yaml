@@ -103,9 +103,9 @@ components:
           description: Human-readable explanation of what went wrong.
     NewTask:
       type: object
-      required: [title]
+      required: [name]
       properties:
-        title:
+        name:
           type: string
     Task:
       type: object
