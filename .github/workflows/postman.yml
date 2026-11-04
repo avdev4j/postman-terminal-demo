@@ -1,0 +1,29 @@
+name: Postman
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  api-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the Postman CLI
+        run: npm install -g postman-cli
+
+      - name: Log in to Postman
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+        run: postman login --with-api-key "$POSTMAN_API_KEY"
+
+      - name: Lint the spec
+        run: postman spec lint openapi.yaml -f error
+
+      - name: Check AI readiness
+        run: postman spec ai-readiness ./openapi.yaml --min-score 70
