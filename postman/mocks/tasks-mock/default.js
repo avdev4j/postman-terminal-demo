@@ -42,6 +42,12 @@ const server = http.createServer((req, res) => {
   if (req.method === 'GET' && /^\/tasks\/([^/]+)$/.test(pathname)) {
     const requestedStatusCode = req.headers['x-mock-response-code'];
 
+    // "No task exists with the given `taskId`." — when the id is `missing`
+    if (decodeURIComponent(pathname.split('/')[2]) === 'missing') {
+      res.writeHead(404, {"Content-Type":"application/json"});
+      return res.end(JSON.stringify({"error":"task not found"}));
+    }
+
     // "No task exists with the given `taskId`." — when x-mock-response-code: 404
     if (requestedStatusCode === '404') {
       res.writeHead(404, {"Content-Type":"application/json"});
